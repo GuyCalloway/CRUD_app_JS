@@ -5,7 +5,7 @@ class MessageApp {
   // C
   post(content) {
     let item = {
-      id: this.messages.length,
+      id: newId(this.messages),
       content: content,
       date: new Date()
     }
@@ -14,17 +14,26 @@ class MessageApp {
   }
   // R
   get(id) {
-    return this.messages[id];
+    return this.messages.filter(message => message.id === id)[0]
   }
   // U
   update(id, update) {
-    this.messages[id].content = update
-    return this.messages[id]
+    let index = this.messages.findIndex(message => message.id === id)
+    this.messages[index].content = update
   }
   // D
   delete(id) {
-    this.messages.splice(id - 1, 1)
+    this.messages = this.messages.filter(message => message.id != id)
     return this.messages
   }
 }
+
+function newId(array) {
+  if (array.length > 0) {
+    return array[array.length - 1].id + 1;
+  } else {
+    return 1
+  }
+}
+
 export default MessageApp
